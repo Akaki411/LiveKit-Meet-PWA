@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: livekit-meet-auth
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env.local
+    volumes:
+      - ./data:/app/data
+      - ./static:/app/static

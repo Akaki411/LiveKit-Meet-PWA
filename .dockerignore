@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+data
+static
+config
+.env.local
+npm-debug.log*
+.idea
