@@ -4,8 +4,7 @@ services:
     container_name: livekit-meet-auth
     restart: unless-stopped
     network_mode: host
-    env_file:
-      - .env.local
     volumes:
+      - ./config:/app/config
       - ./data:/app/data
       - ./static:/app/static
