@@ -6,7 +6,6 @@ configs:
         tcp_port: 7881
         port_range_start: 50000
         port_range_end: 60100
-        use_external_ip: true
       redis:
         address: ${REDIS_ADDRESS:-localhost:6379}
       keys:
@@ -68,7 +67,6 @@ services:
         redis:
           address: ${REDIS_ADDRESS:-localhost:6379}
     depends_on:
-      - redis
       - livekit
     volumes:
       - ./recordings:/out
@@ -84,6 +82,7 @@ services:
     depends_on:
       - livekit
     environment:
-      LIVEKIT_URL: ${LIVEKIT_URL:-ws://localhost:7880}
+      LIVEKIT_URL: ws://localhost:7880
       LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-devkey}
       LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:?copy .env.example to .env and set LIVEKIT_API_SECRET}
+      VAD_HTTP_PORT: ${VAD_HTTP_PORT:-8081}

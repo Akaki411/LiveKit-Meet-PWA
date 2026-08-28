@@ -67,6 +67,37 @@ Para que todos los componentes funcionen y para optimizar la interfaz web se req
    contrario, Compose no los verá y, por ejemplo, `down` no detendrá los servicios de esos perfiles.
 
 
+3. Coloque un proxy inverso TLS delante de la aplicación (`LIVEKIT_URL` arriba no
+   tiene puerto porque el proxy expone LiveKit en el puerto estándar `443`, no `7880`
+   — la biblioteca cliente añade `/rtc` por sí misma). Ejemplo de configuración de nginx:
+
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name meet.your-domain;
+       ssl_certificate     /path/to/fullchain.pem;
+       ssl_certificate_key /path/to/privkey.pem;
+
+       # Señalización de LiveKit (WebSocket) + API => livekit-server
+       location /rtc   { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; proxy_read_timeout 3600s; proxy_send_timeout 3600s; }
+       location /twirp { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; }
+
+       # Frontend de Meet => contenedor web.
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           include snippets/proxy.conf;
+           proxy_hide_header Permissions-Policy;
+           add_header Permissions-Policy "microphone=(self), camera=(self)" always;
+       }
+   }
+   ```
+
+   Si está detrás de una cascada NAT (por ejemplo, un servidor doméstico redirigido
+   a través de un VPS independiente que posee la IP pública real), consulte también
+   `LIVEKIT_USE_EXTERNAL_IP` / `LIVEKIT_NODE_IP` en `.env.example` — la autodetección
+   de IP mediante STUN de LiveKit encontrará la IP de su ISP, no la del VPS, lo que
+   rompe el audio/vídeo incluso cuando la señalización funciona correctamente.
+
 ### **Gestión** — con los comandos habituales de Compose:
 
 ```bash

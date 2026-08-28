@@ -5,6 +5,7 @@ import {
   ConnectionState,
   LocalParticipant,
   Participant,
+  ParticipantKind,
   RoomEvent,
   Track,
   type Room,
@@ -54,11 +55,17 @@ const TOGGLE_EVENTS: RoomEvent[] = [
   RoomEvent.TrackUnmuted,
 ];
 
+const isStandardParticipant = (participant: Participant): boolean =>
+  participant.kind === ParticipantKind.STANDARD;
+
 export const useParticipants = (): Participant[] => {
   const room = useRoomContext();
   const tick = useRoomEvents(room, PARTICIPANT_EVENTS);
   return React.useMemo(
-    () => [room.localParticipant, ...Array.from(room.remoteParticipants.values())],
+    () =>
+      [room.localParticipant, ...Array.from(room.remoteParticipants.values())].filter(
+        isStandardParticipant,
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [room, tick],
   );
@@ -78,7 +85,7 @@ export const useTracks = (): TrackReferenceOrPlaceholder[] => {
     const participants: Participant[] = [
       room.localParticipant,
       ...Array.from(room.remoteParticipants.values()),
-    ];
+    ].filter(isStandardParticipant);
     const refs: TrackReferenceOrPlaceholder[] = [];
 
     for (const participant of participants) {

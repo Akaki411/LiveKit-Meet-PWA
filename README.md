@@ -67,6 +67,37 @@ For all components to work and for optimal web interface performance, additional
    won't see them, and e.g. `down` won't stop the profiled services.
 
 
+3. Put a TLS reverse proxy in front of it (`LIVEKIT_URL` above has no
+   port because the proxy exposes LiveKit at the standard `443`, not `7880` —
+   the client library appends `/rtc` itself). Example nginx config:
+
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name meet.your-domain;
+       ssl_certificate     /path/to/fullchain.pem;
+       ssl_certificate_key /path/to/privkey.pem;
+
+       # LiveKit signaling (WebSocket) + API => livekit-server
+       location /rtc   { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; proxy_read_timeout 3600s; proxy_send_timeout 3600s; }
+       location /twirp { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; }
+
+       # Meet frontend => web container.
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           include snippets/proxy.conf;
+           proxy_hide_header Permissions-Policy;
+           add_header Permissions-Policy "microphone=(self), camera=(self)" always;
+       }
+   }
+   ```
+
+   If you're running behind a NAT cascade (e.g. a home server forwarded
+   through a separate VPS that owns the actual public IP), also see
+   `LIVEKIT_USE_EXTERNAL_IP` / `LIVEKIT_NODE_IP` in `.env.example` — LiveKit's
+   STUN auto-detection finds your ISP's IP, not the VPS's, which breaks
+   audio/video even when signaling works fine.
+
 ### **Management** — using regular Compose commands:
 
 ```bash

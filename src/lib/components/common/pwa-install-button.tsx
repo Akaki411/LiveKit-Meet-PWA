@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { IconArrowUpRight } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
 declare global {
@@ -74,9 +75,10 @@ export const PwaInstallButton = () => {
 
   return (
     <div className="pwa-install-wrap">
-      <button type="button" className="pwa-install" onClick={onClick}>
+      <div className="pwa-install" onClick={onClick}>
         {t('login.installApp')}
-      </button>
+        <IconArrowUpRight size={18} stroke={2}/>
+      </div>
       {showHint && (
         <p className="pwa-install-hint">
           {isIos ? t('login.iosInstallHint') : t('login.androidInstallHint')}

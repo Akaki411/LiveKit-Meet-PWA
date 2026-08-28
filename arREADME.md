@@ -65,6 +65,36 @@
    فمثلًا لن يوقف الأمر `down` خدمات تلك الملفات الشخصية.
 
 
+3. ضع reverse proxy يدعم TLS أمام التطبيق (لا يحتوي `LIVEKIT_URL` أعلاه على
+   منفذ لأن الوكيل (proxy) يعرض LiveKit على المنفذ القياسي `443`، وليس `7880` —
+   مكتبة العميل تضيف `/rtc` بنفسها). مثال على إعداد nginx:
+
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name meet.your-domain;
+       ssl_certificate     /path/to/fullchain.pem;
+       ssl_certificate_key /path/to/privkey.pem;
+
+       # إشارات LiveKit (WebSocket) + API => livekit-server
+       location /rtc   { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; proxy_read_timeout 3600s; proxy_send_timeout 3600s; }
+       location /twirp { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; }
+
+       # واجهة Meet الأمامية => حاوية web.
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           include snippets/proxy.conf;
+           proxy_hide_header Permissions-Policy;
+           add_header Permissions-Policy "microphone=(self), camera=(self)" always;
+       }
+   }
+   ```
+
+   إذا كان الخادم يعمل خلف سلسلة NAT (مثلاً خادم منزلي يُمرَّر عبر VPS منفصل
+   يملك عنوان IP العام الفعلي)، راجع أيضًا `LIVEKIT_USE_EXTERNAL_IP` / `LIVEKIT_NODE_IP`
+   في `.env.example` — سيكتشف LiveKit تلقائيًا عبر STUN عنوان IP الخاص بمزود
+   خدمة الإنترنت لديك، وليس عنوان VPS، مما يعطّل الصوت/الفيديو حتى عند عمل الإشارات بشكل صحيح.
+
 ### **الإدارة** — باستخدام أوامر Compose الاعتيادية:
 
 ```bash

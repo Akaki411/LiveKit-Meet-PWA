@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 
 from livekit import api, rtc
 from livekit.agents import AutoSubscribe, JobContext, JobProcess, WorkerOptions, cli
@@ -58,4 +59,10 @@ async def entrypoint(ctx: JobContext) -> None:
 
 
 if __name__ == "__main__":
-    cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, prewarm_fnc=prewarm))
+    cli.run_app(
+        WorkerOptions(
+            entrypoint_fnc=entrypoint,
+            prewarm_fnc=prewarm,
+            port=int(os.environ.get("VAD_HTTP_PORT", "8081")),
+        )
+    )

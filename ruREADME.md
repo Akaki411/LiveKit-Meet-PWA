@@ -67,6 +67,37 @@
    их не увидит и, например, `down` не остановит профильные сервисы.
 
 
+3. Разместите перед приложением TLS reverse proxy (у `LIVEKIT_URL` выше нет
+   порта, потому что прокси открывает LiveKit на стандартном `443`, а не `7880` —
+   клиентская библиотека сама добавляет `/rtc`). Пример конфига nginx:
+
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name meet.your-domain;
+       ssl_certificate     /path/to/fullchain.pem;
+       ssl_certificate_key /path/to/privkey.pem;
+
+       # Сигналинг LiveKit (WebSocket) + API => livekit-server
+       location /rtc   { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; proxy_read_timeout 3600s; proxy_send_timeout 3600s; }
+       location /twirp { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; }
+
+       # Фронтенд Meet => контейнер web.
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           include snippets/proxy.conf;
+           proxy_hide_header Permissions-Policy;
+           add_header Permissions-Policy "microphone=(self), camera=(self)" always;
+       }
+   }
+   ```
+
+   Если сервер работает за каскадом NAT (например, домашний сервер, проброшенный
+   через отдельный VPS, которому принадлежит реальный публичный IP), смотрите также
+   `LIVEKIT_USE_EXTERNAL_IP` / `LIVEKIT_NODE_IP` в `.env.example` — автоопределение
+   внешнего IP через STUN у LiveKit найдёт IP вашего провайдера, а не VPS, из-за чего
+   аудио/видео сломается даже при рабочем сигналинге.
+
 ### **Управление** — обычными командами Compose:
 
 ```bash

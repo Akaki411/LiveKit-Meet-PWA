@@ -65,6 +65,36 @@
    将无法识别这些服务，例如 `down` 将不会停止对应配置文件下的服务。
 
 
+3. 在应用前面部署一个 TLS 反向代理（上面的 `LIVEKIT_URL` 不带端口，
+   因为代理会在标准的 `443` 端口暴露 LiveKit，而不是 `7880` ——
+   客户端库会自行附加 `/rtc`）。nginx 配置示例：
+
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name meet.your-domain;
+       ssl_certificate     /path/to/fullchain.pem;
+       ssl_certificate_key /path/to/privkey.pem;
+
+       # LiveKit 信令（WebSocket）+ API => livekit-server
+       location /rtc   { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; proxy_read_timeout 3600s; proxy_send_timeout 3600s; }
+       location /twirp { proxy_pass http://127.0.0.1:7880; include snippets/proxy.conf; }
+
+       # Meet 前端 => web 容器。
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           include snippets/proxy.conf;
+           proxy_hide_header Permissions-Policy;
+           add_header Permissions-Policy "microphone=(self), camera=(self)" always;
+       }
+   }
+   ```
+
+   如果您的服务器处于 NAT 级联之后（例如，家用服务器通过一台拥有真实公网 IP 的
+   独立 VPS 转发），另请参阅 `.env.example` 中的 `LIVEKIT_USE_EXTERNAL_IP` /
+   `LIVEKIT_NODE_IP` —— LiveKit 通过 STUN 自动探测到的会是您的运营商 IP，
+   而不是 VPS 的 IP，这会导致即使信令正常，音视频依然无法工作。
+
 ### **管理** —— 使用常规 Compose 命令：
 
 ```bash
