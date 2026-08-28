@@ -1,0 +1,279 @@
+.main {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+    place-content: center;
+    justify-items: center;
+    overflow: auto;
+    flex-grow: 1;
+    min-height: 100dvh;
+    padding: 2rem 1.25rem;
+    user-select: none;
+}
+
+.topbar {
+    position: absolute;
+    inset: 0 0 auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    z-index: 2;
+}
+
+.brandRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: #fff;
+}
+
+.logout {
+    appearance: none;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.logout:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.hero {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.subtitle {
+    margin: 0;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.joinForm {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.field {
+    flex: 1 1 auto;
+    min-width: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: none;
+    border-radius: 0.6rem;
+    padding: 0.85rem 1rem;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    user-select: none;
+    backdrop-filter: blur(5px);
+}
+
+.field::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.field:focus {
+    border: none;
+    outline: none;
+}
+
+.primaryBtn {
+    height: 3rem;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 1rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transition: filter 0.15s ease, transform 0.05s ease;
+    user-select: none;
+    backdrop-filter: blur(5px);
+}
+
+.primaryBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.primaryBtn:active {
+    transform: translateY(1px);
+}
+
+.primaryBtn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.hint {
+    margin: 0.5rem 0 0;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+.createOptions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.authCard {
+    width: 100%;
+    max-width: 800px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3.25rem 3rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(6px);
+}
+
+.authForm {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.authForm .field {
+    width: 100%;
+}
+
+.authForm .primaryBtn {
+    margin-top: 0.35rem;
+    width: 100%;
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.recent {
+    width: 100%;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.recentTitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    padding-left: 0.25rem;
+}
+
+.recentList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.recentItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    backdrop-filter: blur(5px);
+}
+
+.recentItem:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.recentName {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #fff;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recentTime {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.recentRemove {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    border-radius: 0.3rem;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.recentRemove:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 480px) {
+    .joinForm {
+        flex-direction: column;
+    }
+
+    .primaryBtn {
+        width: 100%;
+    }
+}

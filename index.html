@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <script type="module">
+    import '/src/app/globals.css';
+  </script>
+  <script>
+    (function () {
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.__deferredPwaPrompt = e;
+        window.dispatchEvent(new Event('pwa-prompt-ready'));
+      });
+      window.addEventListener('appinstalled', function () {
+        window.__deferredPwaPrompt = null;
+        window.dispatchEvent(new Event('pwa-installed'));
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+</html>

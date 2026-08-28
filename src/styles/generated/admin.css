@@ -1,0 +1,362 @@
+.jxL_ha_page {
+  color: #fff;
+  gap: 1rem;
+  max-width: 900px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.jxL_ha_header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+}
+
+.jxL_ha_title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.jxL_ha_headerActions {
+  align-items: center;
+  gap: .5rem;
+  display: flex;
+}
+
+.jxL_ha_section {
+  background: #ffffff08;
+  border-radius: .9rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
+}
+
+.jxL_ha_sectionHead {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.jxL_ha_sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.jxL_ha_sectionHead .jxL_ha_sectionTitle {
+  margin: 0;
+}
+
+.jxL_ha_table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .9rem;
+}
+
+.jxL_ha_table th {
+  text-align: left;
+  color: #ffffff80;
+  border-bottom: 1px solid #ffffff14;
+  padding: .4rem .6rem;
+  font-weight: 400;
+}
+
+.jxL_ha_table td {
+  vertical-align: middle;
+  border-bottom: 1px solid #ffffff0f;
+  padding: .55rem .6rem;
+}
+
+.jxL_ha_remove {
+  width: 3rem;
+}
+
+.jxL_ha_actions {
+  white-space: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: .4rem;
+  height: 40px;
+  display: flex;
+}
+
+.jxL_ha_iconBtn {
+  cursor: pointer;
+  color: #ffffffb3;
+  background: #ffffff14;
+  border: none;
+  border-radius: .5rem;
+  justify-content: center;
+  align-items: center;
+  padding: .4rem;
+  transition: background .15s, color .15s;
+  display: inline-flex;
+}
+
+.jxL_ha_iconBtn:hover {
+  color: #fff;
+  background: #ffffff24;
+}
+
+.jxL_ha_redPill, .jxL_ha_bluePill, .jxL_ha_grayPill, .jxL_ha_badge {
+  white-space: nowrap;
+  user-select: none;
+  border-radius: 1rem;
+  padding: .12rem .6rem;
+  font-size: .72rem;
+  display: inline-block;
+}
+
+.jxL_ha_redPill {
+  color: #eba596;
+  background: #e36d5b2e;
+}
+
+.jxL_ha_grayPill {
+  color: #ffffff80;
+  background: #ffffff14;
+}
+
+.jxL_ha_ownerPill {
+  color: #f2c879;
+  white-space: nowrap;
+  background: #f0b9462e;
+  border-radius: 1rem;
+  align-items: center;
+  gap: .25rem;
+  padding: .12rem .6rem;
+  font-size: .72rem;
+  display: inline-flex;
+}
+
+.jxL_ha_bluePill, .jxL_ha_badge {
+  color: #fff9;
+  background: #ffffff14;
+}
+
+.jxL_ha_badge + .jxL_ha_badge {
+  margin-left: .35rem;
+}
+
+.jxL_ha_form {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem;
+  margin-top: 1rem;
+  display: flex;
+}
+
+.jxL_ha_field {
+  color: #fff;
+  background: #ffffff0f;
+  border: none;
+  border-radius: .6rem;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  padding: .7rem .9rem;
+  font-size: .9rem;
+  height: 3rem !important;
+}
+
+.jxL_ha_field::placeholder {
+  color: #fff6;
+}
+
+.jxL_ha_check {
+  color: #ffffffbf;
+  white-space: nowrap;
+  cursor: pointer;
+  align-items: center;
+  gap: .35rem;
+  font-size: .9rem;
+  display: flex;
+}
+
+.jxL_ha_primary, .jxL_ha_linkBtn, .jxL_ha_danger {
+  cursor: pointer;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  gap: .35rem;
+  transition: background .15s, color .15s;
+  display: inline-flex;
+}
+
+.jxL_ha_primary {
+  color: #fff;
+  background: #ffffff14;
+  border-radius: .6rem;
+  padding: .7rem 1.2rem;
+  font-size: .9rem;
+}
+
+.jxL_ha_primary:hover {
+  background: #ffffff1f;
+}
+
+.jxL_ha_linkBtn {
+  color: #ffffffd9;
+  background: #ffffff0f;
+  border-radius: 1rem;
+  padding: .45rem .9rem;
+  font-size: .85rem;
+}
+
+.jxL_ha_linkBtn:hover {
+  color: #fff;
+  background: #ffffff1a;
+}
+
+.jxL_ha_danger {
+  color: #ff9d9d;
+  background: #ff505024;
+  border-radius: .5rem;
+  padding: .4rem;
+}
+
+.jxL_ha_danger:hover {
+  background: #ff50503d;
+}
+
+.jxL_ha_error {
+  color: #ff6b6b;
+  background: #ffffff08;
+  border-radius: .6rem;
+  margin-top: 1rem;
+  padding: .8rem 1rem;
+  font-size: .9rem;
+}
+
+.jxL_ha_muted {
+  color: #ffffff73;
+  font-size: .9rem;
+}
+
+.jxL_ha_activeRoom {
+  background: #ffffff0a;
+  border-radius: .6rem;
+  margin-top: .5rem;
+  overflow: hidden;
+}
+
+.jxL_ha_activeHead {
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  padding: .75rem .95rem;
+  transition: background .15s;
+  display: flex;
+}
+
+.jxL_ha_activeHead:hover {
+  background: #ffffff0f;
+}
+
+.jxL_ha_partList {
+  margin: 0;
+  padding: .25rem .95rem .85rem;
+  list-style: none;
+}
+
+.jxL_ha_partItem {
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem 0;
+  font-size: .9rem;
+  display: flex;
+}
+
+.jxL_ha_partItem span {
+  align-items: center;
+  gap: .4rem;
+  display: inline-flex;
+}
+
+@media (width <= 560px) {
+  .jxL_ha_form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.jxL_ha_backdrop {
+  z-index: 100;
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  background: #00000073;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  transition: opacity .25s;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.jxL_ha_backdropOpen {
+  opacity: 1;
+}
+
+.jxL_ha_modal {
+  opacity: 0;
+  background: #181818;
+  border-radius: 1rem;
+  flex-direction: column;
+  width: min(900px, 100%);
+  max-height: 88vh;
+  transition: opacity .25s, transform .25s;
+  display: flex;
+  overflow: hidden;
+  transform: scale(.96) translateY(10px);
+  box-shadow: 0 20px 60px #0000008c;
+}
+
+.jxL_ha_backdropOpen .jxL_ha_modal {
+  opacity: 1;
+  transform: none;
+}
+
+.jxL_ha_modalHeader {
+  border-bottom: 1px solid #ffffff12;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+}
+
+.jxL_ha_modalTitle {
+  color: #fff;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.jxL_ha_closeBtn {
+  cursor: pointer;
+  color: #a3a3a3;
+  background: #ffffff0f;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  transition: background .15s, color .15s;
+  display: inline-flex;
+}
+
+.jxL_ha_closeBtn:hover {
+  color: #fff;
+  background: #ffffff1f;
+}
+
+.jxL_ha_modalBody {
+  padding: .5rem 1.5rem 1.75rem;
+  overflow-y: auto;
+}

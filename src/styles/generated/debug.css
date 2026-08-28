@@ -1,0 +1,12 @@
+.yBnEcW_overlay {
+  background: #0009;
+  max-height: min(100%, 100vh);
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+  overflow-y: auto;
+}
+
+.yBnEcW_detailsSection, .yBnEcW_detailsSection > div {
+  padding-left: 1rem;
+}

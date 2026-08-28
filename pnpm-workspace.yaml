@@ -1,6 +1,0 @@
-onlyBuiltDependencies:
-  - bcrypt
-  - sqlite3
-  - sharp
-  - esbuild
-  - unrs-resolver

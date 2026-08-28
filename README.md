@@ -1,42 +1,92 @@
-<a href="https://livekit.io/">
-  <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
-</a>
+[Русский](ruREADME.md) | **English** | [Français](frREADME.md) | [Español](spREADME.md) | [中文](zhREADME.md) | [العربية](arREADME.md)
 
-# LiveKit Meet
+# LiveKit PWA
 
-<p>
-  <a href="https://meet.livekit.io"><strong>Try the demo</strong></a>
-  •
-  <a href="https://github.com/livekit/components-js">LiveKit Components</a>
-  •
-  <a href="https://docs.livekit.io/">LiveKit Docs</a>
-  •
-  <a href="https://livekit.io/cloud">LiveKit Cloud</a>
-  •
-  <a href="https://blog.livekit.io/">Blog</a>
-</p>
+![Preview](./public/images/preview.png)
 
-<br>
+Unofficial client for [LiveKit Meet](https://github.com/livekit-examples/meet) — a
+self-hosted video conferencing server, built as a lighter alternative to Jitsi.
+It comes with a built-in **authorization system**, **room moderation**, and
+**lower server resource usage**, letting it run even on a modest server.
 
-LiveKit Meet is an open source video conferencing app built on [LiveKit Components](https://github.com/livekit/components-js), [LiveKit Cloud](https://cloud.livekit.io/), and Next.js. It's been completely redesigned from the ground up using our new components library.
+## Features
 
-![LiveKit Meet screenshot](./.github/assets/livekit-meet.jpg)
+- Authorization.
+- Ability to invite guests into a room without an account.
+- Ability to create password-protected and admin-only rooms.
+- Room moderation features.
+- Chat with attachment support.
+- 6 interface languages, dark theme, PWA (installable as a phone app).
 
-## Tech Stack
+# Installation
 
-- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-- App is built with [@livekit/components-react](https://github.com/livekit/components-js/) library.
+The app needs two required parts: the [**LiveKit media server**](https://github.com/livekit/livekit) (server) and the
+**web app** (client).
 
-## Demo
+For all components to work and for optimal web interface performance, additional dependencies are required:
+- **livekit-vad** — voice-only transmission (advanced noise suppression)
+- **livekit-egress** — conference recording service
+- **Redis** — for request caching
 
-Give it a try at https://meet.livekit.io.
 
-## Dev Setup
+## Option 1. Docker (recommended)
 
-Steps to get a local dev setup up and running:
+1. Create a settings file from the template:
 
-1. Run `pnpm install` to install all dependencies.
-2. Copy `.env.example` in the project root and rename it to `.env.local`.
-3. Update the missing environment variables in the newly created `.env.local` file.
-4. Run `pnpm dev` to start the development server and visit [http://localhost:3000](http://localhost:3000) to see the result.
-5. Start development 🎉
+   ```bash
+   cp .env.example .env
+   ```
+
+   In `.env`, set:
+   - `LIVEKIT_API_SECRET` — a long random secret (`openssl rand -hex 32`);
+   - `AUTH_SECRET` — a random secret for session cookies (`openssl rand -hex 32`);
+   - `LIVEKIT_URL` — the public LiveKit address for the browser (`wss://your-domain`;
+     for testing on a single machine — `ws://localhost:7880`).
+
+
+2. Bring up the module set you need via profiles. **Important:** in Docker
+   Compose v2, the `--profile` flag must be placed **before** the `up` command, not after —
+   `docker compose up -d --profile vad` will return `unknown flag: --profile`.
+
+   ```bash
+   docker compose up -d                              # base: calls, chat, authorization
+   docker compose --profile vad up -d                # + voice detection (VAD)
+   docker compose --profile recording up -d          # + conference recording
+   docker compose --profile vad --profile recording up -d   # everything at once
+   ```
+
+   Profiles can be combined in any way. As an alternative, set them via the
+   `COMPOSE_PROFILES` environment variable (e.g. in `.env`):
+
+   ```bash
+   COMPOSE_PROFILES=vad,recording docker compose up -d
+   ```
+
+   If profiles are enabled, `--profile ...` (or `COMPOSE_PROFILES` in `.env`) must
+   also be given in subsequent commands (`restart`, `pull`, `down`) — otherwise Compose
+   won't see them, and e.g. `down` won't stop the profiled services.
+
+
+### **Management** — using regular Compose commands:
+
+```bash
+docker compose up -d --build                 # rebuild the web image and start
+docker compose restart                       # restart without rebuilding
+docker compose pull && docker compose up -d  # update images from the registry
+```
+
+## Option 2. Native installation
+
+Requires [Bun](https://bun.sh), plus a pre-installed LiveKit server.
+
+```bash
+bun install
+bun run build
+bun run start
+```
+
+Settings are read from `.env.local` in the project root; the template is in `.env.example`.
+```bash
+   cp .env.example .env.local
+```
+For it to work correctly, don't forget to start the [LiveKit](https://github.com/livekit/livekit) server.

@@ -1,9 +1,26 @@
+# Never send secrets or local state into the build context.
+.env
+.env.local
+.env.*.local
+
+# Reinstalled/rebuilt inside the image.
 node_modules
-.next
+dist
+bun.lock.local
+
+# Not needed in the image at all.
+livekit-meet-auth
 .git
+.idea
+.vscode
 data
 static
-config
-.env.local
+recordings
+
+# Misc
 npm-debug.log*
-.idea
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+ruREADME.md
+*.md
