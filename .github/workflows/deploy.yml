@@ -1,0 +1,31 @@
+name: Deploy web container
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Pull + rebuild web on the server
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "${{ secrets.DEPLOY_PORT }}" \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            bash -s <<'REMOTE'
+          set -e
+          cd /sdb/host/LiveMit-Meet-PWA
+          {
+            echo "=== deploy $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+            git fetch origin main
+            git pull --ff-only origin main
+            sudo docker compose up -d --build web
+            echo "deploy OK, now at $(git rev-parse --short HEAD)"
+          } >> deploy.log 2>&1
+          REMOTE

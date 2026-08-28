@@ -76,3 +76,4 @@ Thumbs.db
 /static/
 /recordings/
 /server/
+deploy.log
