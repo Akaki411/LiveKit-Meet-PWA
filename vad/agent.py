@@ -3,7 +3,14 @@ import logging
 import os
 
 from livekit import api, rtc
-from livekit.agents import AutoSubscribe, JobContext, JobProcess, WorkerOptions, cli
+from livekit.agents import (
+    AutoSubscribe,
+    JobContext,
+    JobExecutorType,
+    JobProcess,
+    WorkerOptions,
+    cli,
+)
 from livekit.agents.vad import VADEventType
 from livekit.plugins import silero
 
@@ -64,5 +71,14 @@ if __name__ == "__main__":
             entrypoint_fnc=entrypoint,
             prewarm_fnc=prewarm,
             port=int(os.environ.get("VAD_HTTP_PORT", "8081")),
+            # Silero VAD inference is a lightweight ONNX call, not a heavy
+            # CPU-bound job needing full process isolation — run jobs as
+            # threads in the single worker process instead of forking a
+            # separate Python interpreter (with its own copy of onnxruntime
+            # + av) per job. Also drop the default idle pool (4 in
+            # production mode) down to 1: this worker only needs to be able
+            # to pick up the next job promptly, not run many in parallel.
+            job_executor_type=JobExecutorType.THREAD,
+            num_idle_processes=1,
         )
     )
