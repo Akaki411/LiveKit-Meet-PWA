@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE, verifySession } from '@/lib/session';
-import { setAvatar } from '@/lib/auth';
-import { deleteAvatar, isAllowedType, saveAvatar } from '@/lib/avatars';
+import { SESSION_COOKIE, verifySession } from '@/lib/auth/session';
+import { setAvatar } from '@/lib/auth/users';
+import { deleteAvatar, isAllowedType, saveAvatar } from '@/lib/data/avatars';
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
   if (!session) return new NextResponse('Unauthorized', { status: 401 });
 
@@ -18,12 +18,12 @@ export async function POST(request: NextRequest) {
   const previous = await setAvatar(session.login, filename);
   await deleteAvatar(previous);
   return NextResponse.json({ ok: true, avatar: filename });
-}
+};
 
-export async function DELETE(request: NextRequest) {
+export const DELETE = async (request: NextRequest) => {
   const session = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
   if (!session) return new NextResponse('Unauthorized', { status: 401 });
   const previous = await setAvatar(session.login, null);
   await deleteAvatar(previous);
   return NextResponse.json({ ok: true });
-}
+};

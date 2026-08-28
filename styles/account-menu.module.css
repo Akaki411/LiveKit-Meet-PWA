@@ -12,6 +12,7 @@
     padding: 0.3rem 1rem 0.3rem 0.4rem;
     color: #fff;
     cursor: pointer;
+    backdrop-filter: blur(5px);
 }
 
 .trigger:hover {
@@ -61,7 +62,7 @@
 
 .panel {
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: calc(100% + 0.5rem);
     z-index: 30;
     width: 20rem;
@@ -71,8 +72,9 @@
     gap: 1rem;
     padding: 1.1rem;
     border-radius: 0.9rem;
-    background: #181818;
+    background: rgba(255, 255, 255, 0.06);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 .avatarRow {
@@ -92,7 +94,7 @@
 .changeLanguage{
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    inset-inline-end: 1rem;
 }
 
 .avatarActions {
@@ -100,7 +102,7 @@
     height: 1.5rem;
     position: absolute;
     bottom: 0.1rem;
-    right: 0.1rem;
+    inset-inline-end: 0.1rem;
     background: #252525;
     transition: 0.2s;
     z-index: 100;
@@ -187,14 +189,13 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    text-align: left;
+    text-align: start;
     border: none;
     cursor: pointer;
     background: transparent;
     color: #fff;
     padding: 0.5rem 0;
     font-size: 0.9rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .menuItem:hover {

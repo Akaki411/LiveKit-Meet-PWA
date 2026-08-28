@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE, SESSION_MAX_AGE, signSession } from '@/lib/session';
-import { validateCredentials } from '@/lib/auth';
-import { isAdminRole } from '@/lib/roles';
+import { SESSION_COOKIE, SESSION_MAX_AGE, signSession } from '@/lib/auth/session';
+import { validateCredentials } from '@/lib/auth/users';
+import { isAdminRole } from '@/lib/auth/roles';
+import { getClientIp } from '@/lib/net/client-ip';
+import { rateLimit } from '@/lib/net/rate-limit';
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
+  const ip = getClientIp(request) ?? 'unknown';
+  if (!rateLimit(`login:${ip}`, 10, 5 * 60 * 1000)) {
+    return new NextResponse('Too Many Requests', { status: 429 });
+  }
+
   let username = '';
   let password = '';
   try {
@@ -30,4 +37,4 @@ export async function POST(request: NextRequest) {
     maxAge: SESSION_MAX_AGE,
   });
   return response;
-}
+};

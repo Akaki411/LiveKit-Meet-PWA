@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/admin-guard';
-import { deleteUser, getUserById, getUserByLogin, setRole } from '@/lib/auth';
-import { isAdminRole, isOwnerRole } from '@/lib/roles';
-import { markRoleChange } from '@/lib/role-cache';
+import { requireAdmin } from '@/lib/auth/admin-guard';
+import { deleteUser, getUserById, getUserByLogin, setRole } from '@/lib/auth/users';
+import { isAdminRole, isOwnerRole } from '@/lib/auth/roles';
+import { markRoleChange } from '@/lib/auth/role-cache';
 
-export async function DELETE(
+export const DELETE = async (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
-) {
+) => {
   const session = await requireAdmin(request);
   if (!session) return new NextResponse('Forbidden', { status: 403 });
 
@@ -32,12 +32,12 @@ export async function DELETE(
   const ok = await deleteUser(numId);
   if (ok) markRoleChange(target.login, 'user');
   return ok ? NextResponse.json({ ok: true }) : new NextResponse('Not Found', { status: 404 });
-}
+};
 
-export async function PATCH(
+export const PATCH = async (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
-) {
+) => {
   const session = await requireAdmin(request);
   if (!session) return new NextResponse('Forbidden', { status: 403 });
 
@@ -69,4 +69,4 @@ export async function PATCH(
   markRoleChange(target.login, role);
   const updated = await getUserById(numId);
   return NextResponse.json(updated);
-}
+};

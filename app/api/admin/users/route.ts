@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/admin-guard';
-import { createUser, getUserByLogin, listUsers } from '@/lib/auth';
-import { isOwnerRole } from '@/lib/roles';
+import { requireAdmin } from '@/lib/auth/admin-guard';
+import { createUser, getUserByLogin, listUsers } from '@/lib/auth/users';
+import { isOwnerRole } from '@/lib/auth/roles';
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   if (!(await requireAdmin(request))) return new NextResponse('Forbidden', { status: 403 });
   return NextResponse.json(await listUsers());
-}
+};
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await requireAdmin(request);
   if (!session) return new NextResponse('Forbidden', { status: 403 });
 
@@ -36,4 +36,4 @@ export async function POST(request: NextRequest) {
 
   const user = await createUser(login, password, role);
   return NextResponse.json(user, { status: 201 });
-}
+};

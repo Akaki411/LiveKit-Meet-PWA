@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   serverExternalPackages: ['sequelize', 'sqlite3', 'bcrypt', 'sharp'],
   images: {
     formats: ['image/webp'],

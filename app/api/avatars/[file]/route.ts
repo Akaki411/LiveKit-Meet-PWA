@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
-import { avatarPath, contentTypeFor } from '@/lib/avatars';
+import { avatarPath, contentTypeFor } from '@/lib/data/avatars';
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ file: string }> }) {
+export const GET = async (_request: NextRequest, { params }: { params: Promise<{ file: string }> }) => {
   const { file } = await params;
   try {
     const data = await fs.promises.readFile(avatarPath(file));
@@ -15,4 +15,4 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
   } catch {
     return new NextResponse('Not Found', { status: 404 });
   }
-}
+};

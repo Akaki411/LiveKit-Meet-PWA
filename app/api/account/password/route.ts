@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE, verifySession } from '@/lib/session';
-import { updatePassword } from '@/lib/auth';
+import { SESSION_COOKIE, verifySession } from '@/lib/auth/session';
+import { updatePassword } from '@/lib/auth/users';
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
   if (!session) return new NextResponse('Unauthorized', { status: 401 });
 
@@ -18,4 +18,4 @@ export async function POST(request: NextRequest) {
   const ok = await updatePassword(session.login, currentPassword, newPassword);
   if (!ok) return NextResponse.json({ error: 'wrong_password' }, { status: 400 });
   return NextResponse.json({ ok: true });
-}
+};

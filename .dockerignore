@@ -3,7 +3,9 @@ node_modules
 .git
 data
 static
+recordings
 config
+.env
 .env.local
 npm-debug.log*
 .idea

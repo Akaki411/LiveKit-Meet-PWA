@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE, verifySession } from '@/lib/session';
-import { getUserByLogin } from '@/lib/auth';
-import { isAdminRole } from '@/lib/roles';
-import { setSessionCookie } from '@/lib/session-cookie';
+import { SESSION_COOKIE, verifySession } from '@/lib/auth/session';
+import { getUserByLogin } from '@/lib/auth/users';
+import { isAdminRole } from '@/lib/auth/roles';
+import { setSessionCookie } from '@/lib/auth/session-cookie';
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   const session = await verifySession(request.cookies.get(SESSION_COOKIE)?.value);
-  if (!session) return new NextResponse('Unauthorized', { status: 401 });
+  if (!session) {
+    return NextResponse.json({ login: null, role: 'guest', nickname: null, avatar: null });
+  }
   const user = await getUserByLogin(session.login);
   const response = NextResponse.json({
     login: session.login,
@@ -19,4 +21,4 @@ export async function GET(request: NextRequest) {
     await setSessionCookie(response, session.login, admin);
   }
   return response;
-}
+};

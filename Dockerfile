@@ -8,6 +8,10 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 RUN npm_config_build_from_source=true pnpm rebuild bcrypt sqlite3
 COPY . .
+ARG NEXT_PUBLIC_SHOW_SETTINGS_MENU=true
+ARG NEXT_PUBLIC_LK_RECORD_ENDPOINT=/api/record
+ENV NEXT_PUBLIC_SHOW_SETTINGS_MENU=$NEXT_PUBLIC_SHOW_SETTINGS_MENU \
+    NEXT_PUBLIC_LK_RECORD_ENDPOINT=$NEXT_PUBLIC_LK_RECORD_ENDPOINT
 RUN pnpm build
 
 FROM node:22-bookworm-slim AS runner
@@ -19,11 +23,7 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/next.config.js ./next.config.js
-COPY --from=builder /app/.env.example ./.env.example
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
-  && mkdir -p config data static
-VOLUME ["/app/config", "/app/data", "/app/static"]
+RUN mkdir -p data static recordings
+VOLUME ["/app/data", "/app/static", "/app/recordings"]
 EXPOSE 3000
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["pnpm", "start"]

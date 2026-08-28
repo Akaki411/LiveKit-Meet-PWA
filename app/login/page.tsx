@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher } from '@/lib/components/language-switcher';
-import { PwaInstallButton } from '@/lib/components/pwa-install-button';
-import { PasswordInput } from '@/lib/components/password-input';
+import { LanguageSwitcher } from '@/lib/components/common/language-switcher';
+import { PwaInstallButton } from '@/lib/components/common/pwa-install-button';
+import { PasswordInput } from '@/lib/components/common/password-input';
 import styles from '../../styles/home.module.css';
 
-export default function LoginPage() {
+const LoginPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
@@ -83,4 +83,6 @@ export default function LoginPage() {
       </div>
     </main>
   );
-}
+};
+
+export default LoginPage;

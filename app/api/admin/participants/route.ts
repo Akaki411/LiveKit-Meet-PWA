@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/admin-guard';
-import { kickParticipant, listActiveRooms, listParticipants } from '@/lib/livekit';
+import { requireAdmin } from '@/lib/auth/admin-guard';
+import { kickParticipant, listActiveRooms, listParticipants } from '@/lib/livekit/server';
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   if (!(await requireAdmin(request))) return new NextResponse('Forbidden', { status: 403 });
   const roomName = request.nextUrl.searchParams.get('roomName');
   try {
@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: 'livekit_unavailable' }, { status: 502 });
   }
-}
+};
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   if (!(await requireAdmin(request))) return new NextResponse('Forbidden', { status: 403 });
   let roomName = '';
   let identity = '';
@@ -31,4 +31,4 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: 'kick_failed' }, { status: 502 });
   }
-}
+};

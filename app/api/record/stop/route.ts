@@ -1,20 +1,18 @@
-import { EgressClient } from 'livekit-server-sdk';
 import { NextRequest, NextResponse } from 'next/server';
+import { getEgressClient } from '@/lib/livekit/server';
+import { canModerateRoom } from '@/lib/auth/room-moderator';
 
-export async function GET(req: NextRequest) {
+export const GET = async (req: NextRequest) => {
   try {
     const roomName = req.nextUrl.searchParams.get('roomName');
-
     if (roomName === null) {
-      return new NextResponse('Missing roomName parameter', { status: 403 });
+      return new NextResponse('Missing roomName parameter', { status: 400 });
+    }
+    if (!(await canModerateRoom(req, roomName))) {
+      return new NextResponse('Forbidden', { status: 403 });
     }
 
-    const { LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL } = process.env;
-
-    const hostURL = new URL(LIVEKIT_URL!);
-    hostURL.protocol = 'https:';
-
-    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET);
+    const egressClient = getEgressClient();
     const activeEgresses = (await egressClient.listEgress({ roomName })).filter(
       (info) => info.status < 2,
     );
@@ -24,9 +22,7 @@ export async function GET(req: NextRequest) {
     await Promise.all(activeEgresses.map((info) => egressClient.stopEgress(info.egressId)));
 
     return new NextResponse(null, { status: 200 });
-  } catch (error) {
-    if (error instanceof Error) {
-      return new NextResponse(error.message, { status: 500 });
-    }
+  } catch {
+    return new NextResponse('Unexpected error', { status: 500 });
   }
-}
+};

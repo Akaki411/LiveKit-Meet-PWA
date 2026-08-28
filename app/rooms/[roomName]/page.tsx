@@ -1,13 +1,27 @@
 import * as React from 'react';
 import { cookies } from 'next/headers';
-import { PageClientImpl } from '@/lib/components/page-client-impl';
-import { isVideoCodec } from '@/lib/types';
-import { SESSION_COOKIE, verifySession } from '@/lib/session';
-import { getUserByLogin } from '@/lib/auth';
-import { isAdminRole } from '@/lib/roles';
-import { getRoomInfo } from '@/lib/rooms';
+import { PageClientImpl } from '@/lib/components/prejoin/page-client-impl';
+import { isVideoCodec } from '@/lib/livekit/types';
+import { SESSION_COOKIE, verifySession } from '@/lib/auth/session';
+import { getUserByLogin } from '@/lib/auth/users';
+import { isAdminRole } from '@/lib/auth/roles';
+import { getRoomInfo } from '@/lib/data/rooms';
 
-export default async function Page({
+const safeDecodeRoomName = (name: string): string => {
+  try {
+    let decoded = name;
+    for (let i = 0; i < 3 && /%[0-9a-fA-F]{2}/.test(decoded); i++) {
+      const next = decodeURIComponent(decoded);
+      if (next === decoded) break;
+      decoded = next;
+    }
+    return decoded;
+  } catch {
+    return name;
+  }
+};
+
+const Page = async ({
   params,
   searchParams,
 }: {
@@ -18,9 +32,10 @@ export default async function Page({
     codec?: string;
     singlePC?: string;
   }>;
-}) {
+}) => {
   const _params = await params;
   const _searchParams = await searchParams;
+  const roomName = safeDecodeRoomName(_params.roomName);
   const codec =
     typeof _searchParams.codec === 'string' && isVideoCodec(_searchParams.codec)
       ? _searchParams.codec
@@ -37,12 +52,12 @@ export default async function Page({
     initialNickname = user?.nickname ?? '';
     isAdmin = isAdminRole(user?.role);
   }
-  const roomInfo = await getRoomInfo(_params.roomName);
+  const roomInfo = await getRoomInfo(roomName);
   const requiresPassword = roomInfo.requiresPassword && !isAdmin;
 
   return (
     <PageClientImpl
-      roomName={_params.roomName}
+      roomName={roomName}
       region={_searchParams.region}
       hq={hq}
       codec={codec}
@@ -51,4 +66,6 @@ export default async function Page({
       requiresPassword={requiresPassword}
     />
   );
-}
+};
+
+export default Page;

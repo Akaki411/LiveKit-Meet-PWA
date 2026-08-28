@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/admin-guard';
-import { createRoom, listRooms } from '@/lib/rooms';
+import { requireAdmin } from '@/lib/auth/admin-guard';
+import { createRoom, listRooms } from '@/lib/data/rooms';
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   if (!(await requireAdmin(request))) return new NextResponse('Forbidden', { status: 403 });
   return NextResponse.json(await listRooms());
-}
+};
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await requireAdmin(request);
   if (!session) return new NextResponse('Forbidden', { status: 403 });
 
@@ -32,4 +32,4 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: 'room_exists' }, { status: 409 });
   }
-}
+};

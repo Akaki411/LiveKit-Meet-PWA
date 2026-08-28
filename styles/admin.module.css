@@ -103,6 +103,7 @@
 
 .redPill,
 .bluePill,
+.grayPill,
 .badge {
     display: inline-block;
     padding: 0.12rem 0.6rem;
@@ -115,6 +116,11 @@
 .redPill {
     background: rgba(227, 109, 91, 0.18);
     color: #eba596;
+}
+
+.grayPill {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .ownerPill {
@@ -148,7 +154,8 @@
 }
 
 .field {
-    flex: 1 1 160px;
+    height: 3rem !important;
+    flex: 1;
     min-width: 0;
     background: rgba(255, 255, 255, 0.06);
     border: none;

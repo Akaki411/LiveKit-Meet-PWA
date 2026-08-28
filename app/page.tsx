@@ -4,19 +4,19 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconX, IconLock, IconLockOpen2 } from '@tabler/icons-react';
-import { generateRoomId } from '@/lib/client-utils';
-import { getRecentRooms, removeRecentRoom, type RecentRoom } from '@/lib/recent-rooms';
-import { AccountMenu } from '@/lib/components/account-menu';
-import { PasswordInput } from '@/lib/components/password-input';
-import { isAdminRole } from '@/lib/roles';
+import { generateRoomId } from '@/lib/client/client-utils';
+import { getRecentRooms, removeRecentRoom, type RecentRoom } from '@/lib/client/recent-rooms';
+import { AccountMenu } from '@/lib/components/account/account-menu';
+import { PasswordInput } from '@/lib/components/common/password-input';
+import { PwaInstallButton } from '@/lib/components/common/pwa-install-button';
 import styles from '../styles/home.module.css';
 
-export default function Page() {
+const Page = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const [room, setRoom] = useState('');
   const [recent, setRecent] = useState<RecentRoom[]>([]);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   const [withPassword, setWithPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [createError, setCreateError] = useState('');
@@ -25,8 +25,8 @@ export default function Page() {
     setRecent(getRecentRooms());
     fetch('/api/me')
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => setIsAdmin(isAdminRole(data?.role)))
-      .catch(() => setIsAdmin(false));
+      .then((data) => setIsAuthed(!!data?.role && data.role !== 'guest'))
+      .catch(() => setIsAuthed(false));
   }, []);
 
   const formatRelative = (ts: number): string => {
@@ -40,12 +40,12 @@ export default function Page() {
     return new Date(ts).toLocaleDateString();
   };
 
-  const startMeeting = async (event: React.FormEvent) => {
+  const startMeeting = async () => {
     setCreateError('');
     const name = room.trim().replace(/\s+/g, '-');
     const target = name.length > 0 ? name : generateRoomId();
-    if (isAdmin && withPassword && password.trim().length > 0) {
-      const res = await fetch('/api/admin/rooms', {
+    if (isAuthed && withPassword && password.trim().length > 0) {
+      const res = await fetch('/api/rooms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: target, password }),
@@ -97,7 +97,7 @@ export default function Page() {
             style={{ maxWidth: '500px' }}
           />
           <p className={styles.subtitle}>{t('home.subtitle')}</p>
-          <form className={styles.joinForm}>
+          <form className={styles.joinForm} onSubmit={(e) => { e.preventDefault(); startMeeting(); }}>
             <input
               className={styles.field}
               placeholder={t('home.roomPlaceholder')}
@@ -105,14 +105,26 @@ export default function Page() {
               onChange={(e) => setRoom(e.target.value)}
               autoFocus
             />
-            <div className={styles.primaryBtn} onClick={() => {setWithPassword(!withPassword)}}>
-              {withPassword ? <IconLockOpen2 stroke={2} size="1.3rem"/> : <IconLock stroke={2} size="1.3rem"/>}
-            </div>
-            <div className={styles.primaryBtn} onClick={startMeeting} style={{padding: '0 2rem'}}>
+            {isAuthed && (
+              <div
+                className={styles.primaryBtn}
+                onClick={() => setWithPassword(!withPassword)}
+                role="button"
+                aria-label={t('home.setPassword')}
+                title={t('home.setPassword')}
+              >
+                {withPassword ? (
+                  <IconLockOpen2 stroke={2} size="1.3rem" />
+                ) : (
+                  <IconLock stroke={2} size="1.3rem" />
+                )}
+              </div>
+            )}
+            <button type="submit" className={styles.primaryBtn} style={{ padding: '0 2rem' }}>
               {t('home.start')}
-            </div>
+            </button>
           </form>
-          {isAdmin && withPassword && (
+          {isAuthed && withPassword && (
             <div className={styles.createOptions}>
               <PasswordInput
                 wrapperClassName={styles.field}
@@ -124,6 +136,8 @@ export default function Page() {
           )}
           {createError && <p className={styles.error}>{createError}</p>}
           <p className={styles.hint}>{t('home.hint')}</p>
+
+          <PwaInstallButton />
 
           {recent.length > 0 && (
             <div className={styles.recent}>
@@ -159,4 +173,6 @@ export default function Page() {
       </main>
     </>
   );
-}
+};
+
+export default Page;

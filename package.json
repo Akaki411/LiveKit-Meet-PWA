@@ -14,9 +14,6 @@
   },
   "dependencies": {
     "@datadog/browser-logs": "^5.23.3",
-    "@livekit/components-core": "0.12.14",
-    "@livekit/components-react": "2.9.23",
-    "@livekit/components-styles": "1.2.0",
     "@livekit/krisp-noise-filter": "0.4.3",
     "@livekit/track-processors": "^0.7.0",
     "@tabler/icons-react": "^3.24.0",
