@@ -23,8 +23,6 @@ services:
     restart: unless-stopped
     network_mode: host
     command: --config /etc/livekit.yaml
-    depends_on:
-      - redis
     configs:
       - source: livekit_config
         target: /etc/livekit.yaml
