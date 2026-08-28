@@ -7,7 +7,6 @@ import { generateRoomId } from '@/lib/client/client-utils';
 import { getRecentRooms, removeRecentRoom, type RecentRoom } from '@/lib/client/recent-rooms';
 import { AccountMenu } from '@/lib/components/account/account-menu';
 import { PasswordInput } from '@/lib/components/common/password-input';
-import { PwaInstallButton } from '@/lib/components/common/pwa-install-button';
 import styles from '../../../styles/generated/home.classes';
 
 const HomeClient = () => {
@@ -134,8 +133,6 @@ const HomeClient = () => {
           )}
           {createError && <p className={styles.error}>{createError}</p>}
           <p className={styles.hint}>{t('home.hint')}</p>
-
-          <PwaInstallButton />
 
           {recent.length > 0 && (
             <div className={styles.recent}>

@@ -16,9 +16,6 @@ const resources = {
         submitting: 'Signing in…',
         invalid: 'Wrong login or password',
         networkError: 'Network error, please try again',
-        installApp: 'Install app',
-        iosInstallHint: 'Open the Share menu and choose “Add to Home Screen”',
-        androidInstallHint: 'Open the browser menu (⋮) and choose “Install app” or “Add to Home screen”',
       },
       home: {
         subtitle: 'Enter a room name to start a new meeting or join an existing one.',
@@ -192,9 +189,6 @@ const resources = {
         submitting: 'Вход…',
         invalid: 'Неверный логин или пароль',
         networkError: 'Ошибка сети, попробуйте ещё раз',
-        installApp: 'Установить приложение',
-        iosInstallHint: 'Откройте меню «Поделиться» и выберите «На экран Домой»',
-        androidInstallHint: 'Откройте меню браузера (⋮) и выберите «Установить приложение» или «Добавить на главный экран»',
       },
       home: {
         subtitle:
@@ -369,9 +363,6 @@ const resources = {
         submitting: 'Entrando…',
         invalid: 'Usuario o contraseña incorrectos',
         networkError: 'Error de red, inténtalo de nuevo',
-        installApp: 'Instalar aplicación',
-        iosInstallHint: 'Abre el menú Compartir y elige «Añadir a pantalla de inicio»',
-        androidInstallHint: 'Abre el menú del navegador (⋮) y elige «Instalar aplicación» o «Añadir a pantalla de inicio»',
       },
       home: {
         subtitle:
@@ -537,9 +528,6 @@ const resources = {
         submitting: 'Connexion…',
         invalid: 'Identifiant ou mot de passe incorrect',
         networkError: 'Erreur réseau, réessayez',
-        installApp: 'Installer l’application',
-        iosInstallHint: 'Ouvrez le menu Partager et choisissez « Sur l’écran d’accueil »',
-        androidInstallHint: 'Ouvrez le menu du navigateur (⋮) et choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »',
       },
       home: {
         subtitle: 'Saisissez un nom de salle pour démarrer une réunion ou en rejoindre une.',
@@ -705,9 +693,6 @@ const resources = {
         submitting: 'جارٍ الدخول…',
         invalid: 'اسم المستخدم أو كلمة المرور غير صحيحة',
         networkError: 'خطأ في الشبكة، حاول مرة أخرى',
-        installApp: 'تثبيت التطبيق',
-        iosInstallHint: 'افتح قائمة المشاركة واختر «إضافة إلى الشاشة الرئيسية»',
-        androidInstallHint: 'افتح قائمة المتصفح (⋮) واختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»',
       },
       home: {
         subtitle: 'أدخل اسم غرفة لبدء اجتماع جديد أو الانضمام إلى اجتماع قائم.',
@@ -871,9 +856,6 @@ const resources = {
         submitting: '登录中…',
         invalid: '账号或密码错误',
         networkError: '网络错误，请重试',
-        installApp: '安装应用',
-        iosInstallHint: '打开“分享”菜单并选择“添加到主屏幕”',
-        androidInstallHint: '打开浏览器菜单（⋮）并选择“安装应用”或“添加到主屏幕”',
       },
       home: {
         subtitle: '输入房间名称以开始新会议或加入现有会议。',

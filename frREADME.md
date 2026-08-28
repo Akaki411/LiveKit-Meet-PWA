@@ -17,7 +17,7 @@ tourner même sur un serveur peu puissant.
 - Possibilité de créer des salles protégées par mot de passe et réservées aux administrateurs.
 - Fonctions de modération des salles.
 - Chat avec prise en charge des pièces jointes.
-- 6 langues d'interface, thème sombre, PWA (installation comme application sur téléphone).
+- 6 langues d'interface, thème sombre.
 
 # Installation
 

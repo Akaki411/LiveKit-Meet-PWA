@@ -17,7 +17,7 @@ ejecutarlo incluso en un servidor modesto.
 - Posibilidad de crear salas protegidas por contraseña y solo para administradores.
 - Funciones de moderación de salas.
 - Chat con soporte de archivos adjuntos.
-- 6 idiomas de interfaz, tema oscuro, PWA (instalable como aplicación en el teléfono).
+- 6 idiomas de interfaz, tema oscuro.
 
 # Instalación
 

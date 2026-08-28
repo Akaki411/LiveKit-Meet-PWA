@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/lib/components/common/language-switcher';
-import { PwaInstallButton } from '@/lib/components/common/pwa-install-button';
 import { PasswordInput } from '@/lib/components/common/password-input';
 import styles from '../../../styles/generated/home.classes';
 
@@ -81,7 +80,6 @@ const LoginClient = () => {
             {loading ? t('login.submitting') : t('login.submit')}
           </button>
         </form>
-        <PwaInstallButton />
       </div>
     </main>
   );

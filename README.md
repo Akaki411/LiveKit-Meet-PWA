@@ -16,7 +16,7 @@ It comes with a built-in **authorization system**, **room moderation**, and
 - Ability to create password-protected and admin-only rooms.
 - Room moderation features.
 - Chat with attachment support.
-- 6 interface languages, dark theme, PWA (installable as a phone app).
+- 6 interface languages, dark theme.
 
 # Installation
 
