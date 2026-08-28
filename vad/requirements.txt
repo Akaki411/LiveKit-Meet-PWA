@@ -1,0 +1,2 @@
+livekit-agents[silero]~=1.5
+livekit-api>=0.8

@@ -17,14 +17,6 @@ configs:
           - http://localhost:3000/api/livekit-webhook
 
 services:
-  redis:
-    image: redis:7-alpine
-    container_name: livekit-redis
-    restart: unless-stopped
-    network_mode: host
-    command: redis-server --bind 127.0.0.1 --port 6379 --save "" --appendonly no
-    mem_limit: 128m
-
   livekit:
     image: livekit/livekit-server:latest
     container_name: livekit-server
@@ -38,7 +30,7 @@ services:
         target: /etc/livekit.yaml
 
   web:
-    image: ${WEB_IMAGE:-livekit-rari:local}
+    image: ${WEB_IMAGE:-livekit-meet-pwa:local}
     build:
       context: .
       args:
@@ -85,6 +77,8 @@ services:
 
   vad:
     image: ${VAD_IMAGE:-livekit-vad:local}
+    build:
+      context: ./vad
     container_name: livekit-vad
     restart: unless-stopped
     network_mode: host
