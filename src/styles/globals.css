@@ -148,6 +148,7 @@ h2 a {
 
 .pwa-install {
     width: 100%;
+    height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
